@@ -38,11 +38,11 @@ public class AccountDAO {
         Connection connection = ConnectionUtil.getConnection();
         Account selectedAccount = null;
         try {
-            String sql = "SELECT * FROM account WHERE username LIKE ? LIMIT 1";
+            String sql = "SELECT * FROM account WHERE username LIKE ? ";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, account.getUsername());
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            if (rs.next()){
                 selectedAccount = new Account(
                     rs.getInt("account_id"), 
                     rs.getString("username"),
@@ -65,12 +65,12 @@ public class AccountDAO {
         Connection connection = ConnectionUtil.getConnection();
         Account authenticatedAccount = null;
         try {
-            String sql = "SELECT * FROM account WHERE username LIKE ? AND password LIKE ? LIMIT 1";
+            String sql = "SELECT * FROM account WHERE username LIKE ? AND password LIKE ?";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, account.getUsername());
             ps.setString(2, account.getPassword());
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            if (rs.next()){
                 authenticatedAccount = new Account(
                     rs.getInt("account_id"), 
                     rs.getString("username"),

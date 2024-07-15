@@ -19,7 +19,8 @@ public class AccountService {
      * @return account credentials
      */
     public Account registerAccount(Account account) {
-        if (account.getUsername() == null 
+        if (account.getUsername() == null
+        || account.getUsername().equals("") 
         || account.getPassword().length() < 4
         || accountDao.getAccount(account) != null) 
         return null;

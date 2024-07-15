@@ -37,7 +37,8 @@ public class SocialMediaController {
         app.post("/register", this::registerHandler);
         app.post("/login", this::loginHandler);
         // Message related APIs
-        app.get("/messages", this::getAllMessages);
+        app.get("/messages", this::getAllMessagesHandler);
+        app.post("/messages", this::createMessageHandler);
 
         return app;
     }
@@ -78,11 +79,27 @@ public class SocialMediaController {
      * Retrieve all messages in the database.
      * @param context The Javalin Context object manages information about both the HTTP request and response.
      */
-    private void getAllMessages(Context context) throws JsonProcessingException {
+    private void getAllMessagesHandler(Context context) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         List<Message> messageList = messageService.getAllMessages();
         context.json(mapper.writeValueAsString(messageList));
         context.status(200);
+    }
+
+    /**
+     * Create a message using user's provided information
+     * @param context The Javalin Context object manages information about both the HTTP request and response.
+     */
+    private void createMessageHandler(Context context) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = mapper.readValue(context.body(), Message.class);
+        Message createdMessage = messageService.createMessage(message);
+        if (createdMessage != null) {
+            context.json(mapper.writeValueAsString(createdMessage));
+            context.status(200);
+        } else {
+            context.status(400);
+        }
     }
 
 
