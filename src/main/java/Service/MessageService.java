@@ -31,4 +31,43 @@ public class MessageService {
         if (!messageDAO.isAccountIdExist(message)) return null;
         return messageDAO.createMessage(message);
     }
+
+    /**
+     * Get message object by message id
+     * @param id
+     * @return the message object with the given message id.
+     */
+    public Message getMessageByMessageId(int id) {
+        return messageDAO.getMessageByMessageId(id);
+    }
+
+    /**
+     * Delete message by it's id
+     * @param id
+     * @return the deleted message object
+     */
+    public Message deleteMessageByMessageId(int id) {
+        return messageDAO.deleteMessageByMessageId(id);
+    }
+
+    /**
+     * The update of a message should be successful if and only if the message id already exists and the new message_text is not blank and is not over 255 characters.
+     * @param id
+     * @return the updated message object.
+     */
+    public Message updateMessage(Message message) {
+        boolean isMessageExist = messageDAO.getMessageByMessageId(message.getMessage_id()) != null;
+        int messageLength = message.getMessage_text().length();
+        if (!isMessageExist || messageLength == 0 || messageLength > 255) return null;
+        return messageDAO.updateMessage(message);
+    }
+
+    /**
+     * Retrieve a list of messages posted by an account.
+     * @param accountId
+     * @return a list of messages posted by the account.
+     */
+    public List<Message> getAllMessagesFromAccount(int accountId) {
+        return messageDAO.getAllMessagesFromAccount(accountId);
+    }
 }
