@@ -18,4 +18,4 @@ This project will be a backend for a hypothetical social media app, where we mus
 - Clone the repository
 - In the working folder ``` mvn install ``` to install dependencies
 - Run the program, the server should start on ```http://localhost:8080 ```
-# Good luck!
+
